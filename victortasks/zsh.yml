@@ -1,0 +1,28 @@
+- name: Install zsh 
+  apt: name=zsh
+  tags:
+    - zsh
+- name: Change shell
+  shell: chsh -s `which zsh`
+  tags:
+    - zsh
+- name: Install ohmyzsh
+  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+  tags:
+    - zsh
+- name: Install ohmyzsh for autocompletion
+  ansible.builtin.git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+  tags:
+    - zsh
+- name: run zsh
+  shell: zsh
+  tags:
+    - zsh
+# todo
+# get saved zshrc files that you have saved
+# also set up tmux in separate tmux file
+# set up tmux sessionizer script
+# also set up tmux in separate tmux file
+# set up tmux sessionizer script

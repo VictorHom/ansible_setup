@@ -1,0 +1,7 @@
+- hosts: localhost
+  become: true
+  tasks: 
+  - name: clear out latest image
+    shell: docker rmi ansible_practice:latest || true
+  - name: run docker build test
+    shell: docker build -t ansible_practice .

@@ -1,0 +1,22 @@
+- hosts: localhost
+  become: true
+  tasks: 
+  - name: get nvim init file
+    shell: >
+      gh api \
+      -H "Accept: application/vnd.github.v3+json" \
+      /gists/342088f8657c0b9193247b716d6f4818
+    register: initvim
+  - name: write to file
+    set_fact: 
+      jsondata: "{{ initvim.stdout | from_json }}"
+  - name: query for init vim content from response
+    set_fact:
+      initvim: "{{ jsondata | json_query(jmesquery) }}"
+    vars:
+      jmesquery: "files.initvim.content"
+  - name: Debug the values
+    debug: msg=" {{ initvim }}"
+  - name: write to file
+    # copy: content="{{ initvim }}" dest=~/.config/nvim/init.vim
+    copy: content="{{ initvim }}" dest=./init.vim

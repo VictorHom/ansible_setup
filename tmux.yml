@@ -1,0 +1,21 @@
+- hosts: localhost
+  become: true
+  tasks: 
+  - name: get tmux conf
+    shell: >
+      gh api \
+      -H "Accept: application/vnd.github.v3+json" \
+      /gists/bf96cc2a2666cea7be053cc93515fbc2
+    register: tmux_gist
+  - name: write to file
+    set_fact: 
+      jsondata: "{{ tmux_gist.stdout | from_json }}"
+  - name: query for tmux conf content from response
+    set_fact:
+      tmuxconf: "{{ jsondata | json_query(jmesquery) }}"
+    vars:
+      jmesquery: "files.tmuxconf.content"
+  - name: Debug the values
+    debug: msg=" {{ tmuxconf }}"
+  - name: write to file
+    copy: content="{{ tmuxconf }}" dest=./Period_tmux.conf

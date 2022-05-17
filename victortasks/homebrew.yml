@@ -1,0 +1,9 @@
+# will be used for installs such as neovim
+# i can't install homebrew thru ansible
+# ruby installer is deprecated
+# i need to not be sudo to install
+# theoretically i could create a user with useradd and become the user
+# but then i don't think i want to be that user
+# but if i do run in non docker root environment, i would be the right user me thinks
+- name: install homebrew
+  shell: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

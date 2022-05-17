@@ -1,0 +1,13 @@
+- hosts: localhost
+  become: true
+  pre_tasks:
+    - name: Update cache
+      apt:
+        update_cache: true
+  tasks: 
+  - include: victortasks/homebrew.yml
+  - include: victortasks/zsh.yml
+  - include: victortasks/node.yml
+  - include: victortasks/nvim.yml
+  - include: victortasks/fzf.yml
+

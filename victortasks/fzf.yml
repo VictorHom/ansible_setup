@@ -1,0 +1,11 @@
+# assumes homebrew was installed (note to self in case ansible to install homebrew fails)
+- name: install fzf
+  shell: brew install fzf
+  tags:
+    - fzf
+# ctrl + r to see previous commands fuzzy
+# ctrl + t to see folders and files to search thru fuzzy
+- name: install fzf keybindings
+  shell: $(brew --prefix)/opt/fzf/install
+  tags:
+    - fzf

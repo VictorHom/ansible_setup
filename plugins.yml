@@ -1,0 +1,22 @@
+- hosts: localhost
+  become: true
+  tasks: 
+  - name: get plugins.vim
+    shell: >
+      gh api \
+      -H "Accept: application/vnd.github.v3+json" \
+      /gists/2ea7670de3609d8420fd99b9206c040c
+    register: pluginsvim
+  - name: write to file
+    set_fact: 
+      jsondata: "{{ pluginsvim.stdout | from_json }}"
+  - name: query for pluginsvim content from response
+    set_fact:
+      pluginsvim: "{{ jsondata | json_query(jmesquery) }}"
+    vars:
+      jmesquery: "files.pluginsvim.content"
+  - name: Debug the values
+    debug: msg=" {{ pluginsvim }}"
+  - name: write to file
+    # copy: content="{{ initvim }}" dest=~/.config/nvim/plugins.vim
+    copy: content="{{ pluginsvim }}" dest=./plugins.vim
